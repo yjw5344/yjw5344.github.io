@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US" # 타깃 국가 설정, 블로그의 주요 언어 설정, 한국어(ko-KR)
@@ -103,7 +103,7 @@ analytics:
 author:
   name             : "Jungwon"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "GitBlog by jungwon."
+  bio              : "Git Blog"
   location         : "Seoul Korea"
   email            : #yjw5344@hanmail.net
   links:
@@ -285,5 +285,5 @@ defaults:
       author_profile: true
       read_time: true
       comments: # true
-      share: true
+      share: false #true => (default)
       related: true
