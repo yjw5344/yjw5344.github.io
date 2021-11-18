@@ -20,7 +20,7 @@ tags:
 
 - [minimal-mistakes github](https://github.com/mmistakes/minimal-mistakes)
 
-minimal-mistakes 테마를 이용하여, jekyll 구성을 하기 위해서는 minimal-mistakes의 github repo로 접속합니다.
+minimal-mistakes 테마를 이용하여, jekyll 구성을 하기 위해서는 minimal-mistakes의 github Repository로 접속합니다.
 
 해당 테마를 fork 하여 자신의 Repository로 가지고 옵니다.
 

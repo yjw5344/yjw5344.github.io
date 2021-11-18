@@ -95,3 +95,5 @@ footer:
 ~~~
 
 
+나머지 설정은 [minimal-mistakes docs](https://mmistakes.github.io/minimal-mistakes/docs/configuration/)에서 확인하여 사용하시면 됩니다.
+
