@@ -13,6 +13,7 @@ tags:
 
 # 기본 환경
 
+OSX 기준 Jekyll 구성 방법입니다.
 jekyll을 이용해서 블로그를 구성하기 위해서는 Rudy와 Jekyll 세팅이 필요합니다.
 
 ## Ruby 세팅

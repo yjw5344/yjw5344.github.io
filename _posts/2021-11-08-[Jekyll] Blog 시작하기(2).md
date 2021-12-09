@@ -40,6 +40,10 @@ __Repository -> setting -> Options -> Repository name 변경__
 
 # jekyll을 이용한 로컬 서버 실행
 
+Fork한 Repository를 Local에 다운로드 합니다.
+
+다운로드한 
+
 ~~~
 $ cd (path) # jekyll 블로그(fork한 테마) 폴더로 이동
 $ jekyll serve # jekyll 실행
