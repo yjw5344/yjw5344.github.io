@@ -53,6 +53,15 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
+
+  /* ── Fluid scale (360px Galaxy S ~ 440px iPhone Pro Max) ──
+     vw 기반 clamp로 기기별 분기 없이 폭에 맞춰 자연스럽게 확대/축소 */
+  --gutter: clamp(1.25rem, 5.6vw, 1.75rem);
+  --section-pad: clamp(4.5rem, 22vw, 6rem);
+  --fs-body: clamp(0.875rem, 3.9vw, 0.9375rem);
+  --fs-hero-names: clamp(1.625rem, 7.3vw, 2rem);
+  --ls-hero-names: clamp(4px, 1.8vw, 8px);
+  --fs-countdown: clamp(1.625rem, 8.2vw, 2rem);
 }
 
 /* ─── Reset & Base ─── */
@@ -67,9 +76,14 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   scroll-behavior: smooth;
+  color-scheme: only light;
+  background-color: var(--color-forest-dark);
 }
 
+/* 안전 영역(노치/다이내믹 아일랜드/홈 인디케이터)은 body가 아닌
+   각 섹션에서 처리 → 히어로 사진이 화면 끝까지 꽉 차고 흰 띠가 생기지 않음 */
 body {
   font-family: var(--font-serif);
   color: var(--color-text);
@@ -77,16 +91,18 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
-  padding-top: var(--safe-top);
-  padding-bottom: var(--safe-bottom);
-  padding-left: var(--safe-left);
-  padding-right: var(--safe-right);
+  overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
+/* 스크롤 잠금: top 값은 script.js가 현재 스크롤 위치로 지정 (열고 닫을 때 위치 유지) */
 body.no-scroll {
   overflow: hidden;
   position: fixed;
+  left: 0;
+  right: 0;
   width: 100%;
 }
 
@@ -270,6 +286,9 @@ a {
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
   white-space: nowrap;
+  max-width: calc(100vw - 2 * var(--gutter));
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .toast.is-visible {
@@ -352,7 +371,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3.5rem 2.5rem;
+  padding:
+    calc(3.5rem + var(--safe-top))
+    calc(2.5rem + var(--safe-right))
+    calc(3.5rem + var(--safe-bottom))
+    calc(2.5rem + var(--safe-left));
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
@@ -386,14 +409,15 @@ a {
 
 /* ─── Section Base ─── */
 .section {
-  padding: var(--spacing-2xl) 0;
+  padding: var(--section-pad) 0;
   position: relative;
 }
 
 .section__inner {
   max-width: 640px;
   margin: 0 auto;
-  padding: 0 var(--spacing-md);
+  padding-left: calc(var(--gutter) + var(--safe-left));
+  padding-right: calc(var(--gutter) + var(--safe-right));
   text-align: center;
 }
 
@@ -436,8 +460,9 @@ a {
    ═══════════════════════════════════════════ */
 .hero {
   position: relative;
+  /* svh: 주소창이 보이는 상태 기준 높이 → 스크롤 시 높이가 출렁이지 않음 */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
