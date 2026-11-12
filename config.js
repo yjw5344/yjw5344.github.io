@@ -36,7 +36,7 @@ const CONFIG = {
   },
 
   wedding: {
-    date: "2026-03-07",
+    date: "2027-03-07",
     time: "12:10",
     venue: "더파티움 여의도",
     hall: "2층 파티움홀",
