@@ -1048,6 +1048,8 @@
   }
 
   /** 하단 바의 섹션 이동 버튼 + 현재 보고 있는 섹션 표시 */
+  const NAV_SCROLL_GAP = 24; // 이동 후 화면 맨 위와 내용 사이 여백(px)
+
   function initSectionNav() {
     const tabs = [...document.querySelectorAll('.action-bar__tab[data-target]')];
     const byId = new Map();
@@ -1057,7 +1059,10 @@
       if (!section) { tab.hidden = true; return; }
       byId.set(section.id, tab);
       tab.addEventListener('click', () => {
-        section.scrollIntoView({ block: 'start' }); // html의 scroll-behavior: smooth 적용
+        // 섹션 위쪽 여백(padding)을 건너뛰고 내용 시작점이 화면 위에 오도록 이동
+        const anchor = section.querySelector('.section__inner') || section;
+        const top = anchor.getBoundingClientRect().top + window.scrollY - NAV_SCROLL_GAP;
+        window.scrollTo({ top: Math.max(0, top) }); // html의 scroll-behavior: smooth 적용
       });
     });
 
