@@ -151,11 +151,10 @@
     </section>
 
     <!-- ─── Leaf Divider ─── -->
-    <div class="leaf-divider leaf-divider--alt" aria-hidden="true">
-      <svg viewBox="0 0 200 20" preserveAspectRatio="none">
-        <line x1="40" y1="10" x2="85" y2="10" stroke="var(--color-sage)" stroke-width="0.5" opacity="0.4"/>
-        <path d="M90 10 C95 4 105 4 110 10 C105 7 95 7 90 10z" fill="var(--color-sage)" opacity="0.4"/>
-        <line x1="115" y1="10" x2="160" y2="10" stroke="var(--color-sage)" stroke-width="0.5" opacity="0.4"/>
+    <div class="leaf-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+        <path d="M80 15 Q90 5 100 15 Q110 25 120 15" stroke="var(--color-sage)" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M92 12 C96 6 104 6 108 12 C104 9 96 9 92 12z" fill="var(--color-sage)" opacity="0.3"/>
       </svg>
     </div>
 
@@ -164,15 +163,18 @@
       <div class="section__inner">
         <h2 class="section__title animate-item" data-animate="fade-up">갤러리</h2>
         <div class="gallery__grid" id="galleryGrid"></div>
+        <button type="button" class="gallery__more" id="galleryMoreBtn" aria-controls="galleryGrid" aria-expanded="false" hidden>
+          <span class="gallery__more-label">더 보기</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
       </div>
     </section>
 
     <!-- ─── Leaf Divider ─── -->
-    <div class="leaf-divider leaf-divider--alt" aria-hidden="true">
-      <svg viewBox="0 0 200 20" preserveAspectRatio="none">
-        <line x1="40" y1="10" x2="85" y2="10" stroke="var(--color-sage)" stroke-width="0.5" opacity="0.4"/>
-        <path d="M90 10 C95 4 105 4 110 10 C105 7 95 7 90 10z" fill="var(--color-sage)" opacity="0.4"/>
-        <line x1="115" y1="10" x2="160" y2="10" stroke="var(--color-sage)" stroke-width="0.5" opacity="0.4"/>
+    <div class="leaf-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+        <path d="M80 15 Q90 5 100 15 Q110 25 120 15" stroke="var(--color-sage)" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M92 12 C96 6 104 6 108 12 C104 9 96 9 92 12z" fill="var(--color-sage)" opacity="0.3"/>
       </svg>
     </div>
 
@@ -264,7 +266,7 @@
   </main>
 
   <!-- ═══ Bottom Action Bar (섹션 이동 + 업로드) ═══ -->
-  <nav class="action-bar" id="actionBar" aria-label="하객 메뉴" hidden>
+  <nav class="action-bar is-concealed" id="actionBar" aria-label="하객 메뉴" hidden>
     <div class="action-bar__dock">
       <button type="button" class="action-bar__tab" data-target="greeting">
         <svg class="action-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>

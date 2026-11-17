@@ -452,10 +452,6 @@ a {
   height: auto;
 }
 
-.leaf-divider--alt {
-  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-warm-white) 50%, var(--color-cream) 100%);
-}
-
 /* ═══════════════════════════════════════════
    Hero Section
    ═══════════════════════════════════════════ */
@@ -694,13 +690,59 @@ a {
   transform: scale(1.08);
 }
 
+/* 갤러리 '더 보기' 버튼 (지도 버튼과 같은 톤) */
+.gallery__more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-width: 10rem;
+  min-height: 44px;
+  margin-top: var(--spacing-md);
+  padding: 0 1.5rem;
+  font-family: var(--font-square);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--color-forest);
+  background: var(--color-bg-card);
+  border: 1px solid rgba(139, 158, 126, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 12px rgba(74, 94, 59, 0.06);
+  transition: var(--transition);
+}
+
+.gallery__more svg {
+  transition: transform var(--transition);
+}
+
+/* 펼친 상태: 화살표를 위로 */
+.gallery__more.is-expanded svg {
+  transform: rotate(180deg);
+}
+
+/* 누르는 동안에만 색 변경 (모바일에서 :hover가 남아 색이 유지되는 문제 방지) */
+.gallery__more:active {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: var(--color-white);
+}
+
+@media (hover: hover) {
+  .gallery__more:hover {
+    background: var(--color-forest);
+    border-color: var(--color-forest);
+    color: var(--color-white);
+  }
+}
+
 /* ═══════════════════════════════════════════
    Location Section
    ═══════════════════════════════════════════ */
 .location {
   background:
     radial-gradient(ellipse 300px 200px at 80% 20%, rgba(139,158,126,0.06) 0%, transparent 70%),
-    var(--color-cream);
+    var(--color-warm-white);
 }
 
 .location__info {
@@ -778,12 +820,20 @@ a {
   filter: none;
 }
 
-.location__links .btn:hover,
 .location__links .btn:active {
   background: var(--color-forest);
   border-color: var(--color-forest);
   color: var(--color-white);
   filter: none;
+}
+
+@media (hover: hover) {
+  .location__links .btn:hover {
+    background: var(--color-forest);
+    border-color: var(--color-forest);
+    color: var(--color-white);
+    filter: none;
+  }
 }
 
 /* ─── Calendar (inline in location) ─── */
@@ -1274,11 +1324,6 @@ body.has-action-bar .footer {
   padding-bottom: calc(var(--spacing-lg) + var(--action-bar-h) + var(--safe-bottom));
 }
 
-/* 첫 화면 이름을 하단 바 바로 위에 배치 (가려지지 않도록) */
-body.has-action-bar .hero__content {
-  padding-bottom: calc(var(--spacing-sm) + var(--action-bar-h) + var(--safe-bottom));
-}
-
 body.has-action-bar .toast {
   bottom: calc(1rem + var(--action-bar-h) + var(--safe-bottom));
 }
@@ -1312,6 +1357,18 @@ body.has-action-bar .toast {
   border: 1px solid rgba(139, 158, 126, 0.25);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 18px rgba(58, 75, 46, 0.12);
+}
+
+/* 첫 화면(히어로)에서는 하단 메뉴를 숨기고, 스크롤해 내려가면 나타남 */
+.action-bar {
+  transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s linear 0s;
+}
+
+.action-bar.is-concealed {
+  transform: translateY(110%);
+  opacity: 0;
+  visibility: hidden;   /* 숨김 상태에서는 터치·포커스도 안 되게 */
+  transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s linear 0.35s;
 }
 
 .action-bar__tab {
@@ -1625,10 +1682,6 @@ body.has-action-bar .toast {
     letter-spacing: 6px;
   }
 
-  body.has-action-bar .hero__content {
-    padding-bottom: calc(var(--spacing-sm) + var(--action-bar-h) + var(--safe-bottom));
-  }
-
   .action-bar {
     padding-top: 0.375rem;
     padding-bottom: calc(0.375rem + var(--safe-bottom));
@@ -1669,6 +1722,10 @@ body.has-action-bar .toast {
     right: auto;
     width: 480px;
     transform: translateX(-50%);
+  }
+
+  .action-bar.is-concealed {
+    transform: translate(-50%, 110%);
   }
 }
 

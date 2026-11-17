@@ -429,6 +429,8 @@
      Gallery Section
      ═══════════════════════════════════════════ */
 
+  const GALLERY_PREVIEW = 9; // 갤러리에 처음 보여줄 사진 수
+
   function initGallery(galleryImages) {
     const grid = $('#galleryGrid');
     const placeholder = grid.querySelector('.loading-placeholder');
@@ -440,13 +442,32 @@
       return;
     }
 
+    const hiddenItems = [];
     galleryImages.forEach((src, i) => {
       const div = document.createElement('div');
       div.className = 'gallery__item animate-item';
       div.setAttribute('data-animate', 'scale-in');
       div.innerHTML = `<img src="${src}" alt="갤러리 사진 ${i + 1}" loading="lazy">`;
       div.addEventListener('click', () => openPhotoModal(galleryImages, i));
+      // 처음에는 GALLERY_PREVIEW장까지만 보이고 나머지는 '더 보기'로 펼침
+      if (i >= GALLERY_PREVIEW) { div.hidden = true; hiddenItems.push(div); }
       grid.appendChild(div);
+    });
+
+    const moreBtn = $('#galleryMoreBtn');
+    if (!moreBtn || hiddenItems.length === 0) return;
+    moreBtn.hidden = false;
+    const label = moreBtn.querySelector('.gallery__more-label');
+    let expanded = false;
+    moreBtn.addEventListener('click', () => {
+      expanded = !expanded;
+      hiddenItems.forEach((el) => { el.hidden = !expanded; });
+      label.textContent = expanded ? '접기' : '더 보기';
+      moreBtn.setAttribute('aria-expanded', String(expanded));
+      moreBtn.classList.toggle('is-expanded', expanded);
+      // 접으면 하단 메뉴의 '갤러리' 버튼과 같은 위치(갤러리 제목)로 이동
+      if (!expanded) scrollToSection($('#gallery'));
+      moreBtn.blur(); // 포커스 표시가 남지 않도록
     });
   }
 
@@ -1045,6 +1066,34 @@
     initSectionNav();
     $('#actionBar').hidden = false;
     document.body.classList.add('has-action-bar');
+    hideActionBarOnHero();
+  }
+
+  /** 첫 화면(히어로)이 화면 대부분을 차지하는 동안 하단 메뉴 숨김 */
+  function hideActionBarOnHero() {
+    const bar = $('#actionBar');
+    const hero = $('#hero');
+    if (!hero) return;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      // 히어로 아래쪽 끝이 화면 높이의 60% 위로 올라오면 메뉴 표시
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      bar.classList.toggle('is-concealed', heroBottom > window.innerHeight * 0.6);
+    };
+    const onScroll = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+  /** 섹션 위쪽 여백(padding)을 건너뛰고 내용 시작점이 화면 위에 오도록 이동 */
+  function scrollToSection(section) {
+    const anchor = section.querySelector('.section__inner') || section;
+    const top = anchor.getBoundingClientRect().top + window.scrollY - NAV_SCROLL_GAP;
+    window.scrollTo({ top: Math.max(0, top) }); // html의 scroll-behavior: smooth 적용
   }
 
   /** 하단 바의 섹션 이동 버튼 + 현재 보고 있는 섹션 표시 */
@@ -1058,12 +1107,7 @@
       const section = document.getElementById(tab.dataset.target);
       if (!section) { tab.hidden = true; return; }
       byId.set(section.id, tab);
-      tab.addEventListener('click', () => {
-        // 섹션 위쪽 여백(padding)을 건너뛰고 내용 시작점이 화면 위에 오도록 이동
-        const anchor = section.querySelector('.section__inner') || section;
-        const top = anchor.getBoundingClientRect().top + window.scrollY - NAV_SCROLL_GAP;
-        window.scrollTo({ top: Math.max(0, top) }); // html의 scroll-behavior: smooth 적용
-      });
+      tab.addEventListener('click', () => scrollToSection(section));
     });
 
     if (!('IntersectionObserver' in window)) return;
