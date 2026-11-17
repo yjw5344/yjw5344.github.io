@@ -6,7 +6,6 @@
  *
  * 이미지 폴더 구조 (파일명 규칙):
  *   images/hero/1.jpg      - 메인 사진 (1장, 필수)
- *   images/story/1.jpg, 2.jpg, ...  - 스토리 사진들 (순번, 자동 감지)
  *   images/gallery/1.jpg, 2.jpg, ... - 갤러리 사진들 (순번, 자동 감지)
  *   images/location/1.jpg  - 약도/지도 이미지 (1장)
  *   images/og/1.jpg        - 카카오톡 공유 썸네일 (1장)
@@ -49,32 +48,40 @@ const CONFIG = {
   },
 
   // ── 인사말 ──
+  // content 백업1 : "제주에서는 '정원'을 '우영'이라 부릅니다\n 서로 다른 이름으로 같은 뜻을 품고 살아온 두 사람이\n이제 하나의 정원을 가꾸려고 합니다.\n\n 두 사람의 우정이\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \n \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0영원을 약속하는 오늘,\n 가까이에서 축복해 주시면 감사하겠습니다."
+  // content 백업2 : content: "제주에서는 '정원'을 '우영'이라 부릅니다\n 서로 다른 이름으로 같은 뜻을 품고 살아온 두 사람이\n이제 하나의 정원을 가꾸려고 합니다.\n\n 두 사람의 영원을 약속하는 오늘,\n 가까이에서 축복해 주시면 감사하겠습니다."
   greeting: {
-    title: "우영 정원 결혼합니다",
-    content: "제주에서는 '정원'을 '우영'이라 부릅니다\n 서로 다른 이름으로 같은 뜻을 품고 살아온 두 사람이\n이제 하나의 정원을 가꾸려고 합니다.\n\n 두 사람의 우정이\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 \n \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0영원을 약속하는 오늘,\n 가까이에서 축복해 주시면 감사하겠습니다."
-  },
+    title: "정원 우영 결혼합니다",
+    content: "제주에서는 '정원'을 '우영'이라 부릅니다\n 서로 다른 이름으로 같은 뜻을 품고 살아온 두 사람이\n이제 하나의 정원을 가꾸려고 합니다.\n\n 봄이 오는 길목에 첫 씨앗을 심는 날,\n 저희 정원의 손님이 되어 주세요."
 
-  // ── 우리의 이야기 ──
-  story: {
-    title: "우리의 시간",
-    content: "서로 다른 길을 걷던 두 사람이\n하나의 길을 함께 걷게 되었습니다.\n\n여러분을 소중한 자리에 초대합니다."
   },
-
+  
   // ── 오시는 길 ──
   // (mapLinks와 캘린더는 location 섹션 내에 포함)
 
   // ── 마음 전하실 곳 ──
   accounts: {
     groom: [
-      { role: "신랑", name: "홍길동", bank: "국민은행", number: "000-000-000000" },
-      { role: "아버지", name: "홍판서", bank: "신한은행", number: "000-000-000000" },
-      { role: "어머니", name: "김부인", bank: "우리은행", number: "000-000-000000" }
+      { role: "신랑", name: "유정원", bank: "우리은행", number: "000-000-000000" },
+      { role: "아버지", name: "유용근", bank: "신한은행", number: "000-000-000000" },
+      { role: "어머니", name: "임애경", bank: "우리은행", number: "000-000-000000" }
     ],
     bride: [
-      { role: "신부", name: "김영희", bank: "하나은행", number: "000-000-000000" },
-      { role: "아버지", name: "김사장", bank: "기업은행", number: "000-000-000000" },
-      { role: "어머니", name: "이부인", bank: "농협은행", number: "000-000-000000" }
+      { role: "신부", name: "김우영", bank: "하나은행", number: "000-000-000000" },
+      { role: "아버지", name: "김종만", bank: "기업은행", number: "000-000-000000" },
+      { role: "어머니", name: "마남숙", bank: "농협은행", number: "000-000-000000" }
     ]
+  },
+
+  // ── 하객 사진·영상 업로드 (하단 고정 버튼) ──
+  // 백엔드 설정 방법: apps-script/README.md
+  interact: {
+    endpoint: "https://script.google.com/macros/s/AKfycbylszZYkT7Mc9SesbNilCvBtMXdoswxwCVwRzB8NbndBOrRz-zIBiGprQ9QCn4P3LB5/exec",  // Apps Script 웹 앱 URL (https://script.google.com/macros/s/.../exec). 비어 있으면 '준비 중' 안내만 표시
+    upload: {
+      enabled: true,
+      maxFileMB: 2048,        // 파일당 최대 크기 (Apps Script의 MAX_FILE_MB와 맞추기)
+      openFrom: ""            // 예: "2026-03-07" → 이 날짜부터 업로드 가능 (빈 문자열이면 항상 가능)
+    }
   },
 
   // ── 링크 공유 시 나타나는 문구 ──
