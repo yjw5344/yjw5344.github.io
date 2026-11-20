@@ -293,8 +293,6 @@
 
   function initHero() {
     $('#heroPhoto').src = 'images/hero/1.jpg';
-    $('#heroNames').textContent = `${CONFIG.groom.name}  ·  ${CONFIG.bride.name}`;
-    $('#heroTopDate').textContent = CONFIG.wedding.date.replace(/-/g, '.');
   }
 
   /* ═══════════════════════════════════════════
@@ -487,12 +485,13 @@
     modalIndex = index;
     showModalImage();
     $('#photoModal').classList.add('is-open');
-    document.body.classList.add('no-scroll');
+    lockScroll(); // 현재 스크롤 위치를 기억해 두고 배경 스크롤 잠금
   }
 
   function closePhotoModal() {
+    if (!$('#photoModal').classList.contains('is-open')) return;
     $('#photoModal').classList.remove('is-open');
-    document.body.classList.remove('no-scroll');
+    unlockScroll(); // 사진을 열기 전 위치로 복귀
   }
 
   function showModalImage() {
@@ -719,7 +718,8 @@
   function unlockScroll() {
     document.body.classList.remove('no-scroll');
     document.body.style.top = '';
-    window.scrollTo(0, sheetScrollY);
+    // html의 scroll-behavior: smooth 때문에 맨 위에서 미끄러져 내려오지 않도록 즉시 복귀
+    window.scrollTo({ top: sheetScrollY, behavior: 'instant' });
   }
 
   function openSheet(sheet) {
