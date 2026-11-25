@@ -386,6 +386,32 @@ a {
   transition: transform 0.3s ease;
 }
 
+/* 확대 가능한 사진(약도): 좌우 여백 없이 화면 폭 가득 + 누르면 확대 */
+.photo-modal.is-zoomable .photo-modal__container {
+  /* 가운데 정렬은 img의 margin:auto로 처리 (flex center는 확대 시 왼쪽·위쪽이 스크롤로 안 보임) */
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-left: 0;
+  padding-right: 0;
+  overflow: auto;
+  touch-action: pan-x pan-y;          /* 확대 상태에서 손가락으로 드래그 */
+  -webkit-overflow-scrolling: touch;
+}
+
+.photo-modal.is-zoomable .photo-modal__img {
+  margin: auto;                       /* 확대해도 왼쪽·위쪽이 잘리지 않게 가운데 정렬 */
+  width: 100%;
+  max-height: none;
+  cursor: zoom-in;
+  transition: none;
+}
+
+.photo-modal.is-zoomed .photo-modal__img {
+  width: 250%;                        /* 2.5배 확대 */
+  max-width: none;
+  cursor: zoom-out;
+}
+
 .photo-modal__counter {
   position: absolute;
   bottom: calc(1.5rem + var(--safe-bottom));
@@ -395,6 +421,19 @@ a {
   font-family: var(--font-sans);
   font-size: 1rem;
   letter-spacing: 2px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 확대 사진 안내 문구: 사진 위에서도 읽히도록 반투명 배경 */
+.photo-modal.is-zoomable .photo-modal__counter {
+  white-space: nowrap;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0.375rem 0.875rem;
+  border-radius: 999px;
 }
 
 /* ═══════════════════════════════════════════
@@ -784,6 +823,7 @@ a {
 }
 
 .location__map-img {
+  cursor: zoom-in;   /* 누르면 크게 보기 */
   display: block;
   width: 100%;
   height: auto;   /* 약도 원본 비율 그대로 (잘림 없음) */

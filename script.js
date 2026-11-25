@@ -493,24 +493,52 @@
   let touchStartY = 0;
   let touchEndY = 0;
 
-  function openPhotoModal(images, index) {
+  /**
+   * @param {object} [opts]
+   * @param {boolean} [opts.zoomable] 약도처럼 글씨가 작은 사진: 화면 폭 가득 표시 + 누르면 확대/축소
+   */
+  function openPhotoModal(images, index, opts = {}) {
     modalImages = images;
     modalIndex = index;
+    const modal = $('#photoModal');
+    modal.classList.toggle('is-zoomable', !!opts.zoomable);
+    modal.classList.remove('is-zoomed');
     showModalImage();
-    $('#photoModal').classList.add('is-open');
+    if (opts.zoomable) $('#modalCounter').textContent = '사진을 누르면 확대돼요';
+    modal.classList.add('is-open');
     lockScroll(); // 현재 스크롤 위치를 기억해 두고 배경 스크롤 잠금
   }
 
   function closePhotoModal() {
-    if (!$('#photoModal').classList.contains('is-open')) return;
-    $('#photoModal').classList.remove('is-open');
+    const modal = $('#photoModal');
+    if (!modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open', 'is-zoomed');
     unlockScroll(); // 사진을 열기 전 위치로 복귀
+  }
+
+  /** 확대 가능한 사진(약도): 누른 지점을 중심으로 확대 ↔ 원래 크기 */
+  function toggleModalZoom(e) {
+    const modal = $('#photoModal');
+    if (!modal.classList.contains('is-zoomable')) return;
+    const container = $('#modalContainer');
+    const img = $('#modalImg');
+    const r = img.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width;   // 누른 위치 (사진 기준 비율)
+    const fy = (e.clientY - r.top) / r.height;
+    const zoomed = modal.classList.toggle('is-zoomed');
+    $('#modalCounter').textContent = zoomed ? '드래그해서 보기 · 다시 누르면 축소' : '사진을 누르면 확대돼요';
+    if (zoomed) {
+      const z = img.getBoundingClientRect();
+      container.scrollLeft = z.width * fx - container.clientWidth / 2;
+      container.scrollTop = z.height * fy - container.clientHeight / 2;
+    }
   }
 
   function showModalImage() {
     const img = $('#modalImg');
     img.src = modalImages[modalIndex];
-    $('#modalCounter').textContent = `${modalIndex + 1} / ${modalImages.length}`;
+    // 사진이 1장(예: 약도)이면 "1 / 1" 표시는 숨김
+    $('#modalCounter').textContent = modalImages.length > 1 ? `${modalIndex + 1} / ${modalImages.length}` : '';
 
     $('#modalPrev').style.display = modalIndex > 0 ? '' : 'none';
     $('#modalNext').style.display = modalIndex < modalImages.length - 1 ? '' : 'none';
@@ -526,6 +554,7 @@
 
   function initPhotoModal() {
     $('#modalClose').addEventListener('click', closePhotoModal);
+    $('#modalImg').addEventListener('click', toggleModalZoom);
     $('#modalPrev').addEventListener('click', () => modalNavigate(-1));
     $('#modalNext').addEventListener('click', () => modalNavigate(1));
 
@@ -560,6 +589,7 @@
   }
 
   function handleSwipe() {
+    if ($('#photoModal').classList.contains('is-zoomable')) return; // 확대 사진은 드래그로 이동
     const diffX = touchStartX - touchEndX;
     const diffY = touchStartY - touchEndY;
     const minSwipe = 50;
@@ -583,7 +613,17 @@
     $('#locationHall').textContent = w.hall;
     $('#locationAddress').textContent = w.address;
     $('#locationTel').textContent = w.tel ? `Tel. ${w.tel}` : '';
-    $('#locationMapImg').src = 'images/location/1.jpg';
+    // 약도: 누르면 사진 보기 창으로 크게 표시
+    const mapImg = $('#locationMapImg');
+    mapImg.src = 'images/location/1.jpg';
+    mapImg.setAttribute('role', 'button');
+    mapImg.setAttribute('tabindex', '0');
+    mapImg.setAttribute('aria-label', '약도 크게 보기');
+    const openMap = () => openPhotoModal([mapImg.src], 0, { zoomable: true });
+    mapImg.addEventListener('click', openMap);
+    mapImg.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMap(); }
+    });
     $('#kakaoMapBtn').href = w.mapLinks.kakao || '#';
     $('#naverMapBtn').href = w.mapLinks.naver || '#';
 
