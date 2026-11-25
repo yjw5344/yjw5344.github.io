@@ -1282,6 +1282,11 @@ a {
     max-width: 440px;
   }
 
+  /* PC: 첫 화면 날짜·장소 아래 여백 줄이기 (96px → 40px) */
+  .hero {
+    padding-bottom: var(--spacing-lg);
+  }
+
   .photo-modal__container {
     padding: 4rem;
   }
