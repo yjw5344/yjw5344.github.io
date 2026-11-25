@@ -34,7 +34,6 @@
 
   --font-serif: 'Noto Serif KR', 'Georgia', serif;
   --font-sans: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
-  --font-square: 'NanumSquare', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
 
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -213,7 +212,7 @@ a {
 }
 
 .curtain__subtitle {
-  font-family: var(--font-square);
+  font-family: var(--font-sans);
   font-size: 0.9375rem;
   font-weight: 300;
   letter-spacing: 4px;
@@ -691,7 +690,7 @@ a {
   min-height: 44px;
   margin-top: var(--spacing-md);
   padding: 0 1.5rem;
-  font-family: var(--font-square);
+  font-family: var(--font-sans);
   font-size: 0.9375rem;
   font-weight: 400;
   letter-spacing: 1px;
@@ -749,10 +748,11 @@ a {
 }
 
 .location__hall {
-  font-family: var(--font-sans);
+  /* 장소명(.location__venue)과 같은 글꼴·굵기·색 (크기만 한 단계 작게) */
+  font-family: var(--font-serif);
   font-size: 1rem;
-  font-weight: 300;
-  color: var(--color-text-light);
+  font-weight: 500;
+  color: var(--color-forest);
   margin-bottom: var(--spacing-xs);
 }
 
@@ -805,7 +805,7 @@ a {
   color: var(--color-forest);
   border: 1px solid rgba(139, 158, 126, 0.35);
   border-radius: var(--radius-md);
-  font-family: var(--font-square);
+  font-family: var(--font-sans);
   font-weight: 400;
   box-shadow: 0 2px 12px rgba(74, 94, 59, 0.06);
   filter: none;
@@ -837,7 +837,7 @@ a {
 
 /* 예식 날짜·시간 (히어로에서 이동) */
 .schedule__date {
-  font-family: var(--font-square);
+  font-family: var(--font-sans);
   font-size: var(--fs-body);
   font-weight: 400;
   letter-spacing: 1px;
@@ -1368,7 +1368,7 @@ body.has-action-bar .toast {
   justify-content: center;
   gap: 0.1875rem;
   padding: 0.25rem 0.125rem;
-  font-family: var(--font-square);
+  font-family: var(--font-sans);
   font-size: clamp(0.6875rem, 3.1vw, 0.75rem);
   font-weight: 400;
   letter-spacing: 0;
