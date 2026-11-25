@@ -293,6 +293,19 @@
 
   function initHero() {
     $('#heroPhoto').src = 'images/hero/1.jpg';
+    $('#heroDate').textContent = formatHeroDate(CONFIG.wedding.date, CONFIG.wedding.time);
+    $('#heroVenue').textContent = [CONFIG.wedding.venue, CONFIG.wedding.hall].filter(Boolean).join(' ');
+  }
+
+  /** 첫 화면용 날짜: "2027년 03월 07일 일요일 낮 12시" / "… 오전 10시30분" */
+  function formatHeroDate(dateStr, timeStr) {
+    const d = new Date(`${dateStr}T${timeStr}:00`);
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const pad = (n) => String(n).padStart(2, '0');
+    const h = d.getHours();
+    const period = h < 12 ? '오전' : h === 12 ? '낮' : '오후';
+    const min = d.getMinutes() ? `${d.getMinutes()}분` : '';
+    return `${d.getFullYear()}년 ${pad(d.getMonth() + 1)}월 ${pad(d.getDate())}일 ${days[d.getDay()]}요일 ${period} ${h % 12 || 12}시${min}`;
   }
 
   /* ═══════════════════════════════════════════

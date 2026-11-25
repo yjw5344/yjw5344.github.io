@@ -453,69 +453,104 @@ a {
 /* ═══════════════════════════════════════════
    Hero Section
    ═══════════════════════════════════════════ */
+/* 커버: 다른 섹션과 같은 배경 + 아치형 사진 */
 .hero {
   position: relative;
   /* svh: 주소창이 보이는 상태 기준 높이 → 스크롤 시 높이가 출렁이지 않음 */
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
+  padding: 0;
+  background:
+    radial-gradient(ellipse 300px 200px at 10% 20%, rgba(139,158,126,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 250px 180px at 90% 80%, rgba(139,158,126,0.06) 0%, transparent 70%),
+    var(--color-warm-white);
+  overflow: hidden;
+  /* 밝은 배경이라 흰 글자 대신 섹션 제목과 같은 짙은 초록 */
+  color: var(--color-forest);
+}
+
+.hero__card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;                /* 기준 폭 약 400px, 가운데 정렬 */
+  margin: 0 auto;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding: 0;
-  overflow: hidden;
-  background-color: var(--color-forest-dark);
+  justify-content: flex-start;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+
+/* 남는 세로 공간은 위(제목 영역) 1 : 아래 2로 나눔 → 아래 공백 몫 */
+.hero__card::after {
+  content: '';
+  flex: 2 1 0;
+}
+
+/* 마루부리 굵은 글꼴: 네이버 CSS는 'MaruBuriBold'라는 별도 이름으로만 제공하므로
+   'MaruBuri' + font-weight 700 으로도 진짜 Bold 파일이 쓰이도록 연결 (가짜 굵기 방지) */
+@font-face {
+  font-family: 'MaruBuri';
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2) format('woff2'),
+       url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff) format('woff');
+}
+
+/* 2. 타이틀 */
+.hero__title {
+  /* 'Happy Time'은 글꼴 파일이 없어 현재는 마루부리(네이버 CDN)로 표시됨 */
+  font-family: 'Happy Time', 'MaruBuri', serif;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.6em;
+  text-indent: 0.6em;   /* 마지막 글자 뒤 간격만큼 앞을 밀어 가운데 정렬 보정 */
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  /* 제목 영역 = 히어로 맨 위 ~ 아치형 사진 맨 위.
+     이 영역 세로 가운데에 글자를 두어, 항상 두 지점의 정확히 중간에 위치 */
+  flex: 1 1 0;
+  min-height: 6.5rem;         /* 제목 영역 최소 높이 (휴대폰에서는 보통 이 값이 적용됨) */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. 아치형 사진 */
+.hero__figure {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .hero__photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
+  display: block;
+  width: 85%;
+  /* 항상 사진 파일의 원본 비율 그대로 (자르거나 늘리지 않음).
+     auto 2/3: 사진을 불러오기 전에만 2:3으로 자리를 잡아 두고, 불러온 뒤엔 실제 비율 사용 */
+  height: auto;
+  aspect-ratio: auto 2 / 3;
+  /* 위쪽 반원 + 아래 직각. 아주 큰 값을 주면 브라우저가 폭의 절반으로 줄여 적용하므로
+     사진 비율이 바뀌어도 항상 정확한 반원이 됨 */
+  border-radius: 9999px 9999px 0 0;
+  background: rgba(255, 255, 255, 0.15);
 }
 
-/* 상단 좌·우 작은 문구 */
-.hero__top {
-  position: absolute;
-  top: calc(1rem + var(--safe-top));
-  left: calc(var(--gutter) + var(--safe-left));
-  right: calc(var(--gutter) + var(--safe-right));
-  z-index: 2;
-  display: flex;
-  justify-content: flex-end;   /* 우측 상단 정렬 */
-  font-family: var(--font-square);
-  font-size: 0.9375rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  line-height: 1.6;
-  color: var(--color-white);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-  /* 스크롤 감지(IntersectionObserver) 대신 로드 시 바로 나타나는 애니메이션.
-     화면 맨 위에 붙어 있어 감지 방식은 기기에 따라 끝까지 안 보일 수 있음 */
-  animation: hero-top-in 0.8s ease 0.2s both;
+/* 5. 하단 정보 */
+.hero__info {
+  margin-top: 30px;
+  font-family: var(--font-serif);   /* 인사말과 같은 글꼴 (Noto Serif KR) */
+  font-size: 1rem;            /* 16px */
+  font-weight: 500;
+  line-height: 1.9;
+  text-align: center;
+  padding: 0 var(--gutter);
 }
-
-/* 세로쓰기: 줄(우영 / 정원 / 결혼합니다)이 왼쪽→오른쪽 세로 열로 배치 */
-.hero__top-text {
-  writing-mode: vertical-lr;
-  text-orientation: upright;
-  letter-spacing: 4px;
-  line-height: 1.9;   /* 열 사이 간격 */
-}
-
-@keyframes hero-top-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__top { animation: none; }
-}
-
-
 
 /* ─── Countdown ─── */
 /* 예식 일정 섹션의 달력 아래에 표시 (밝은 배경용 색) */
@@ -1258,10 +1293,6 @@ a {
     min-height: 100vh;
   }
 
-  .hero {
-    min-height: 100vh;
-  }
-
   .section__inner {
     max-width: 440px;
   }
@@ -1631,10 +1662,6 @@ body.has-action-bar .toast {
 @media (orientation: landscape) and (max-height: 500px) {
   :root {
     --action-bar-h: 3.875rem;
-  }
-
-  .hero__photo {
-    object-position: center 25%;
   }
 
   .action-bar {
